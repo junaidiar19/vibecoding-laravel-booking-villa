@@ -1,7 +1,7 @@
 # Silabus Masterclass: Membangun Aplikasi Booking Villa dengan Laravel (Pendekatan "Vibe Coding")
 
 **Durasi:** 8x Pertemuan  
-**Target Output:** Aplikasi Booking Villa MVP dengan integrasi Live Chat/Chatbot, Payment Gateway, Test Coverage, hingga tahapan Deployment.  
+**Target Output:** Aplikasi Booking Villa MVP dengan Database Backup, Payment Gateway, Test Coverage, Clean Architecture, hingga tahapan Deployment.  
 **Metodologi:** *Vibe Coding* (Menggunakan **Google Antigravity** sebagai IDE pintar untuk mempercepat penulisan kode).
 
 ---
@@ -73,20 +73,23 @@
   - Merancang *endpoint* API penerima notifikasi otomatis (misal: user sukses bayar via bank transfer).
   - **Sangat Krusial:** Validasi *Signature Key* untuk menangkal notifikasi palsu (Spoofing).
 
-## Pertemuan 7: Integrasi 3rd-Party Chatbot & Automated Testing
-*Fokus: Menambah interaktivitas (Live Chat) dan memastikan kualitas kode stabil.*
+## Pertemuan 7: Strategi Backup Database & Automated Testing
+*Fokus: Mengamankan data transaksi dan memastikan kualitas kode stabil.*
 
-- **Menambahkan Fitur "AI Assistant / Chatbot" (Pihak Ke-3):**
-  - Mengintegrasikan widget Live Chat populer seperti **tawk.to**.
-  - Embedding *script* Tawk.To ke dalam *layout* utama Blade Laravel.
+- **Strategi Backup Otomatis untuk Database Transaksi:**
+  - Menyiapkan *Console Command* (Artisan) untuk mengekspor database (mysqldump).
+  - Mengatur penjadwalan *Task Scheduling* (*CRON Job*) Laravel untuk *daily backup*.
 - **Automated Testing (PestPHP):**
   - Kenapa menulis "Test" krusial di era AI? (Sebagai *safeguard* bila ide salah generate logika).
   - *Unit Test*: Mengetes kalkulasi murni (harga * durasi menginap = total).
   - *Feature Test*: Simulasi API memukul endpoint checkout (*Mocking Endpoint*).
 
-## Pertemuan 8: Arsitektur Deployment & Cloud Server
-*Fokus: Membawa aplikasi lokal agar bisa diakses seluruh dunia.*
+## Pertemuan 8: Arsitektur Deployment, Clean Architecture & Scalability
+*Fokus: Membawa aplikasi lokal agar bisa diakses seluruh dunia serta antisipasi lonjakan trafik.*
 
+- **Materi Clean Architecture & Scalability:**
+  - Konsep pemisahan *Controller*, *Service/Action*, dan *Repository*.
+  - Strategi *caching* (Redis) dan *Queue/Worker* untuk beban tinggi.
 - **Opsi Hosting Tradisional (Shared Hosting - cPanel):**
   - Limitasi dan cara *deploy* termurah/tradisional dengan FTP & *symlink*.
 - **Opsi Modern (VPS - Virtual Private Server):**

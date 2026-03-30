@@ -1,10 +1,27 @@
-# Pertemuan 8: Arsitektur Deployment & Cloud Server
+# Pertemuan 8: Deployment, Clean Architecture & Scalability
 
-*Fokus: Mengudara (Going Live). Menyiapkan infrastruktur peladen guna memublikasikan aplikasi ke internet agar dapat diakses oleh publik.*
+*Fokus: Mengudara (Going Live) sekaligus menyusun pondasi kode dan infrastruktur skala industri guna antisipasi lonjakan trafik pengguna.*
 
 ---
 
-## 1. Opsi Konvensional: Shared Hosting (cPanel)
+## 1. Materi Clean Architecture & Scalability
+
+Sebuah aplikasi seringkali dibuat sekadar memenuhi syarat "berfungsi". Namun untuk aplikasi yang beranjak profesional, struktur yang rapi (Clean Architecture) dan kapabilitas untuk bertahan di masa puncak lalu-lintas (Scalability) adalah poin perancangan esensial.
+
+### A. Penerapan Clean Architecture Lanjutan
+Pemahaman pelepasan beban *Controller* berbasis Service Pattern:
+- **Pemisahan Lapisan (Separation of Concerns):** Mencegah fenomena "Fat Controller" dengan mengekstraksi keruwetan logika kalkulasi atau manipulasi API pihak ketiga (Midtrans) ke fail *Service Classes* atau *Action Classes*.
+- **Repository Pattern:** Abstraksi perintah database agar Controller hanya menerima data olahan siap pakai, yang memudahkan penyusunan uji coba *(mocks)* pada unit testing di masa peralihan model rute.
+
+### B. Scalability (Antisipasi Beban Server)
+Strategi mutakhir membendung banjir antrean klien serempak:
+- **Database Indexing & Query Optimizations:** Menambahkan `index` pada kolom-kolom pencarian krusial (seperti `check_in_date`) demi kecepatan pencarian kalender seperseratus detik. 
+- **Caching Strategis:** Pemanfaatan *Redis* atau *Memcached* untuk menyimpan hasil kueri profil *villa* atau halaman statis yang jarang berubah sehingga beban proses SQL menurun drastis.
+- **Queue & Background Jobs:** Melemparkan pengiriman *email* faktur dan penjadwalan proses berat ke antrean *(Worker)* asinkronous agar respon klik di browser pengunjung tetap kilat.
+
+---
+
+## 2. Opsi Konvensional: Shared Hosting (cPanel)
 
 Lingkungan *Virtual Hosting* atau *Shared Hosting* adalah gerbang paling terjangkau bagi pemula untuk merilis aplikasi mereka. 
 
@@ -18,7 +35,7 @@ Opsi ini cocok sekadar untuk uji coba portofolio berskala kecil karena performa 
 
 ---
 
-## 2. Opsi Skala Industri: Virtual Private Server (VPS)
+## 3. Opsi Skala Industri: Virtual Private Server (VPS)
 
 Apabila volume pengunjung harian melonjak, fungsionalitas pengiriman surel faktur instan diaktifkan, atau beban antrean basis data memberat, pengembang wajib bermigrasi ke wadah *VPS* murni layaknya *DigitalOcean, AWS, Linode,* atau *Vultr*.
 
@@ -33,7 +50,7 @@ Pengembang wajib mengetahui pilar tumpukan piranti lunak *(Software Stack)* apa 
 
 ---
 
-## 3. Otomatisasi Profesional: Rilis CI/CD via Laravel Forge
+## 4. Otomatisasi Profesional: Rilis CI/CD via Laravel Forge
 
 Membangun fondasi Nginx, mengatur otorisasi pengguna Linux (Ubuntu), hingga menambal celah pembaruan berkala amatlah menghabiskan kapabilitas energi *Software Engineer*. Oleh karena itu, *Creator* dari Laravel menciptakan platform eksternal pendamping tangguh bernama **Laravel Forge**.
 

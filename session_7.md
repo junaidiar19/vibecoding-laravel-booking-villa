@@ -1,23 +1,26 @@
-# Pertemuan 7: Integrasi 3rd-Party Chatbot & Pengujian Otomatis (Automated Testing)
+# Pertemuan 7: Strategi Backup Database & Pengujian Otomatis (Automated Testing)
 
-*Fokus: Menambahkan aspek interaktivitas real-time (Live Chat) untuk meningkatkan persentase penjualan (konversi) dan menciptakan jaring pengaman kode melalui Automated Testing.*
+*Fokus: Mengamankan data riwayat transaksi operasional melalui backup otomatis dan menciptakan jaring pengaman kode melalui Automated Testing.*
 
 ---
 
-## 1. Integrasi Layanan Bantuan Interaktif (Tawk.to)
+## 1. Strategi Backup Otomatis untuk Database Transaksi
 
-Sebuah aplikasi pemesanan properti rentan terhadap batalnya transaksi (*cart abandonment*) karena keraguan fasilitas atau jadwal. Menyediakan saluran obrolan (*chat*) adalah standar industri untuk mengatasi hal ini.
+Sebutan "data adalah aset utama" amat berlaku di sistem e-commerce. Apabila server mengalami kerusakan (kegagalan perangkat keras) atau terjadi manipulasi serangan fatal, satu-satunya penyelamat bisnis Anda adalah presensi fail *Backup* (Cadangan) data pemesanan.
 
-### A. Strategi Efisiensi (Pihak Ketiga vs Rancang Modul Sendiri)
-Membangun fitur obrolan *real-time* dari nol (melibatkan teknologi WebSockets, Redis, Vue.js/React, dan database chat) memakan alokasi waktu ekstensif yang memecah fokus dari MVP. Pemanfaatan layanan terintegrasi (*plug-and-play*) seperti **tawk.to** memangkas komplikasi ini menjadi nol.
+### A. Pembuatan Komando Pencadangan (Artisan Command)
+Membangun instruksi yang memerintahkan mesin database merekam dirinya sendiri:
+- Menginstruksikan Vibe Coding IDE untuk membuat artisan command: `php artisan make:command BackupDatabase`.
+- Menyuntikkan fungsi agar command lokal menjalankan eksekusi utilitas sistem operasi semacam `mysqldump` demi mengekspor keseluruhan struktur MySQL menjadi fail format `.sql`.
+- Menamakan fail output tersebut secara dinamis dengan penanda waktu *(timestamp)* seperti `backup-2026-03-30.sql` agar tidak terjadi penimpaan *(overwrite)* dokumen historis.
 
-### B. Menyematkan Script ke Layar Antarmuka
-Langkah teknis integrasi layanan ini amatlah sederhana:
-1. Registrasi pada dasbor tawk.to dan salin kode *JavaScript Snippet* yang disediakan.
-2. Tempatkan kode tersebut di dalam berkas tata letak (layout) global aplikasi, yakni pada rute direktori `resources/views/layouts/app.blade.php`.
-3. Posisikan blok teks *script* tepat sebelum elemen penutup `</body>` untuk mencegah sumbatan render visual (blokade pembacaan DOM layar atas).
+### B. Penjadwalan Otomatis (Task Scheduling)
+Langkah teknis integrasi otomatisasi menggunakan layanan dasar Laravel:
+1. Buka konfigurasi kernel konsol di dalam `app/Console/Kernel.php` (atau rute setara di Laravel versi 11/12).
+2. Manfaatkan *method* `schedule` untuk mendaftarkan command ciptaan Anda: `$schedule->command('app:backup-database')->dailyAt('02:00');`.
+3. Pasangkan ke *CRON Job* server (*Linux*) agar mesin Laravel aktif memeriksa waktunya setiap menit.
 
-Kini, *floating button* asisten bantuan sudah melayang di seluruh rute halaman portal Anda untuk menyapa pengunjung aktif.
+Kini, Anda bisa tidur nyenyak karena rekam jejak pembayaran *(Booking)* tersimpan otomatis ke dalam fail cadangan *(Archive)* setiap dini hari saat trafik pengujung sedang sepi.
 
 ---
 
